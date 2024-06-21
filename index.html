@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Math Adventure</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="ui">
+        <div id="stats">
+            <span id="score">Score: 0</span>
+            <span id="resources">Resources: 0</span>
+        </div>
+        <div id="mathProblem" style="display: none;">
+            <p id="question"></p>
+            <input type="number" id="answer">
+            <button id="submitAnswer">Submit</button>
+        </div>
+    </div>
+
+    <script src="js/assets.js"></script>
+    <script src="js/math.js"></script>
+    <script src="js/world.js"></script>
+    <script src="js/station.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
