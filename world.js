@@ -29,6 +29,18 @@ class World {
         });
     }
 
+    // Add this method to the World class in world.js
+    drawRelativeToPlayer(ctx, player) {
+        const offsetX = canvas.width / 2 - player.x;
+        const offsetY = canvas.height / 2 - player.y;
+    
+        this.entities.forEach(entity => {
+            const relativeX = entity.x + offsetX;
+            const relativeY = entity.y + offsetY;
+            drawShape(ctx, SHAPES[entity.type], relativeX, relativeY, SIZES[entity.type], COLORS[entity.type]);
+        });
+    }
+
     update(player) {
         // Remove entities that are too far from the player
         this.entities = this.entities.filter(entity => 
