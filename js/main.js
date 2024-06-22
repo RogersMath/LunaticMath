@@ -13,10 +13,10 @@ function init() {
     player = new Player(canvas.width / 2, canvas.height / 2);
     world = new World();
 
-    setupInputHandlers();
+    const handleInput = setupInputHandlers();
 
     loadAssets().then(() => {
-        gameLoop();
+        gameLoop(handleInput);
     });
 }
 
@@ -28,10 +28,10 @@ function resizeCanvas() {
 function setupInputHandlers() {
     const keys = {};
 
-    function handleButton(id, action, stopAction = null) {
+    function handleButton(id, startAction, stopAction = null) {
         const button = document.getElementById(id);
-        button.addEventListener('mousedown', action);
-        button.addEventListener('touchstart', action);
+        button.addEventListener('mousedown', startAction);
+        button.addEventListener('touchstart', startAction);
         if (stopAction) {
             button.addEventListener('mouseup', stopAction);
             button.addEventListener('touchend', stopAction);
@@ -53,23 +53,21 @@ function setupInputHandlers() {
         keys[e.key] = false;
     });
 
-    function handleInput() {
+    return function handleInput() {
         if (keys['Thrust'] || keys['ArrowUp']) player.thrust();
         if (keys['Reverse'] || keys['ArrowDown']) player.reverseThrust();
         if (keys['Left'] || keys['ArrowLeft']) player.rotateLeft();
         if (keys['Right'] || keys['ArrowRight']) player.rotateRight();
         if (keys['Shoot'] || keys[' ']) player.shoot();
-    }
-
-    return handleInput;
+    };
 }
 
 function toggleMenu() {
-    // Implement menu toggling logic here
     console.log("Menu toggled");
 }
 
-function update() {
+function update(handleInput) {
+    handleInput();
     player.update();
     world.update(player);
 }
@@ -77,13 +75,13 @@ function update() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     world.drawRelativeToPlayer(ctx, player);
-    drawShape(ctx, SHAPES.PLAYER, canvas.width / 2, canvas.height / 2, SIZES.PLAYER, COLORS.PLAYER);
+    player.draw(ctx);
 }
 
-function gameLoop() {
-    update();
+function gameLoop(handleInput) {
+    update(handleInput);
     draw();
-    requestAnimationFrame(gameLoop);
+    requestAnimationFrame(() => gameLoop(handleInput));
 }
 
 window.onload = init;
