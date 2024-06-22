@@ -26,27 +26,47 @@ function resizeCanvas() {
 }
 
 function setupInputHandlers() {
-    document.addEventListener('keydown', (e) => {
-        switch(e.key) {
-            case 'ArrowUp': player.moveUp(); break;
-            case 'ArrowDown': player.moveDown(); break;
-            case 'ArrowLeft': player.moveLeft(); break;
-            case 'ArrowRight': player.moveRight(); break;
+    const keys = {};
+
+    function handleButton(id, action, stopAction = null) {
+        const button = document.getElementById(id);
+        button.addEventListener('mousedown', action);
+        button.addEventListener('touchstart', action);
+        if (stopAction) {
+            button.addEventListener('mouseup', stopAction);
+            button.addEventListener('touchend', stopAction);
         }
+    }
+
+    handleButton('thrustBtn', () => keys['Thrust'] = true, () => keys['Thrust'] = false);
+    handleButton('reverseBtn', () => keys['Reverse'] = true, () => keys['Reverse'] = false);
+    handleButton('leftBtn', () => keys['Left'] = true, () => keys['Left'] = false);
+    handleButton('rightBtn', () => keys['Right'] = true, () => keys['Right'] = false);
+    handleButton('shootBtn', () => keys['Shoot'] = true, () => keys['Shoot'] = false);
+    handleButton('menuBtn', toggleMenu);
+
+    document.addEventListener('keydown', (e) => {
+        keys[e.key] = true;
     });
 
     document.addEventListener('keyup', (e) => {
-        switch(e.key) {
-            case 'ArrowUp':
-            case 'ArrowDown':
-                player.stopVertical();
-                break;
-            case 'ArrowLeft':
-            case 'ArrowRight':
-                player.stopHorizontal();
-                break;
-        }
+        keys[e.key] = false;
     });
+
+    function handleInput() {
+        if (keys['Thrust'] || keys['ArrowUp']) player.thrust();
+        if (keys['Reverse'] || keys['ArrowDown']) player.reverseThrust();
+        if (keys['Left'] || keys['ArrowLeft']) player.rotateLeft();
+        if (keys['Right'] || keys['ArrowRight']) player.rotateRight();
+        if (keys['Shoot'] || keys[' ']) player.shoot();
+    }
+
+    return handleInput;
+}
+
+function toggleMenu() {
+    // Implement menu toggling logic here
+    console.log("Menu toggled");
 }
 
 function update() {
