@@ -40,3 +40,27 @@ body, html {
     width: 100px;
     margin-right: 10px;
 }
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+#controls button {
+    padding: 15px;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 5px;
+    touch-action: manipulation;
+}
+
+#menuBtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
