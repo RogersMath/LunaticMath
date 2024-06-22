@@ -3,7 +3,7 @@ class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.angle = 0; // Angle in radians
+        this.angle = Math.PI / 2; // Start at 90 degrees (pointing upwards)
         this.speed = 0;
         this.maxSpeed = 5;
         this.acceleration = 0.1;
@@ -22,7 +22,7 @@ class Player {
         this.x = (this.x + canvas.width) % canvas.width;
         this.y = (this.y + canvas.height) % canvas.height;
 
-        console.log(`Player position: (${this.x.toFixed(2)}, ${this.y.toFixed(2)}), Angle: ${this.angle.toFixed(2)}, Speed: ${this.speed.toFixed(2)}`);
+        console.log(`Player position: (${this.x.toFixed(2)}, ${this.y.toFixed(2)}), Angle: ${(this.angle * 180 / Math.PI).toFixed(2)}°, Speed: ${this.speed.toFixed(2)}`);
     }
 
     draw(ctx) {
@@ -45,12 +45,12 @@ class Player {
 
     rotateLeft() {
         this.angle -= this.rotationSpeed;
-        console.log(`Rotating left. New angle: ${this.angle.toFixed(2)}`);
+        console.log(`Rotating left. New angle: ${(this.angle * 180 / Math.PI).toFixed(2)}°`);
     }
 
     rotateRight() {
         this.angle += this.rotationSpeed;
-        console.log(`Rotating right. New angle: ${this.angle.toFixed(2)}`);
+        console.log(`Rotating right. New angle: ${(this.angle * 180 / Math.PI).toFixed(2)}°`);
     }
 
     shoot() {
