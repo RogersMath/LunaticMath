@@ -21,6 +21,8 @@ class Player {
         // Keep player within canvas bounds (optional, remove if you want unbounded movement)
         this.x = (this.x + canvas.width) % canvas.width;
         this.y = (this.y + canvas.height) % canvas.height;
+
+        console.log(`Player position: (${this.x.toFixed(2)}, ${this.y.toFixed(2)}), Angle: ${this.angle.toFixed(2)}, Speed: ${this.speed.toFixed(2)}`);
     }
 
     draw(ctx) {
@@ -33,18 +35,22 @@ class Player {
 
     thrust() {
         this.speed = Math.min(this.speed + this.acceleration, this.maxSpeed);
+        console.log(`Thrusting. New speed: ${this.speed.toFixed(2)}`);
     }
 
     reverseThrust() {
         this.speed = Math.max(this.speed - this.acceleration, -this.maxSpeed / 2);
+        console.log(`Reverse thrusting. New speed: ${this.speed.toFixed(2)}`);
     }
 
     rotateLeft() {
         this.angle -= this.rotationSpeed;
+        console.log(`Rotating left. New angle: ${this.angle.toFixed(2)}`);
     }
 
     rotateRight() {
         this.angle += this.rotationSpeed;
+        console.log(`Rotating right. New angle: ${this.angle.toFixed(2)}`);
     }
 
     shoot() {
