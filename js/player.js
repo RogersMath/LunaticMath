@@ -27,4 +27,5 @@ class Player {
     moveRight() { this.dx = this.speed; }
     stopVertical() { this.dy = 0; }
     stopHorizontal() { this.dx = 0; }
+    shoot() { console.log("Player shooting"); }
 }
