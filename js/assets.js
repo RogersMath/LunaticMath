@@ -32,10 +32,10 @@ function drawShape(ctx, shape, x, y, size, color) {
     ctx.beginPath();
 
     switch (shape) {
-        case 'triangle':
-            ctx.moveTo(x, y - size / 2);
-            ctx.lineTo(x - size / 2, y + size / 2);
-            ctx.lineTo(x + size / 2, y + size / 2);
+        case 'triangle': // This is our player ship
+            ctx.moveTo(x + size / 2, y);
+            ctx.lineTo(x - size / 2, y - size / 3);
+            ctx.lineTo(x - size / 2, y + size / 3);
             break;
         case 'diamond':
             ctx.moveTo(x, y - size / 2);
