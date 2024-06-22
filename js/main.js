@@ -30,11 +30,27 @@ function setupInputHandlers() {
 
     function handleButton(id, startAction, stopAction = null) {
         const button = document.getElementById(id);
-        button.addEventListener('mousedown', startAction);
-        button.addEventListener('touchstart', startAction);
+        button.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            console.log(`${id} pressed`);
+            startAction();
+        });
+        button.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            console.log(`${id} touched`);
+            startAction();
+        });
         if (stopAction) {
-            button.addEventListener('mouseup', stopAction);
-            button.addEventListener('touchend', stopAction);
+            button.addEventListener('mouseup', (e) => {
+                e.preventDefault();
+                console.log(`${id} released`);
+                stopAction();
+            });
+            button.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                console.log(`${id} touch ended`);
+                stopAction();
+            });
         }
     }
 
@@ -42,23 +58,43 @@ function setupInputHandlers() {
     handleButton('reverseBtn', () => keys['Reverse'] = true, () => keys['Reverse'] = false);
     handleButton('leftBtn', () => keys['Left'] = true, () => keys['Left'] = false);
     handleButton('rightBtn', () => keys['Right'] = true, () => keys['Right'] = false);
-    handleButton('shootBtn', () => keys['Shoot'] = true, () => keys['Shoot'] = false);
+    handleButton('shootBtn', () => {
+        keys['Shoot'] = true;
+        player.shoot();
+    }, () => keys['Shoot'] = false);
     handleButton('menuBtn', toggleMenu);
 
     document.addEventListener('keydown', (e) => {
         keys[e.key] = true;
+        console.log(`Key pressed: ${e.key}`);
     });
 
     document.addEventListener('keyup', (e) => {
         keys[e.key] = false;
+        console.log(`Key released: ${e.key}`);
     });
 
     return function handleInput() {
-        if (keys['Thrust'] || keys['ArrowUp']) player.thrust();
-        if (keys['Reverse'] || keys['ArrowDown']) player.reverseThrust();
-        if (keys['Left'] || keys['ArrowLeft']) player.rotateLeft();
-        if (keys['Right'] || keys['ArrowRight']) player.rotateRight();
-        if (keys['Shoot'] || keys[' ']) player.shoot();
+        if (keys['Thrust'] || keys['ArrowUp']) {
+            console.log('Thrusting');
+            player.thrust();
+        }
+        if (keys['Reverse'] || keys['ArrowDown']) {
+            console.log('Reverse thrusting');
+            player.reverseThrust();
+        }
+        if (keys['Left'] || keys['ArrowLeft']) {
+            console.log('Rotating left');
+            player.rotateLeft();
+        }
+        if (keys['Right'] || keys['ArrowRight']) {
+            console.log('Rotating right');
+            player.rotateRight();
+        }
+        if (keys['Shoot'] || keys[' ']) {
+            console.log('Shooting');
+            player.shoot();
+        }
     };
 }
 
